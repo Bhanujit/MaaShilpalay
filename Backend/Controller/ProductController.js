@@ -1,6 +1,7 @@
 const Product = require('../Models/Productmodel')
 const ErrorHandler = require("../Utils/errorHandler")
 const asyncErrorHanlder = require("../Middleware/catchAsyncError")
+const ApiFeatures = require('../Utils/apiFeatures')
 
 //create Product --Admin
 exports.createProduct= asyncErrorHanlder(
@@ -17,10 +18,18 @@ exports.createProduct= asyncErrorHanlder(
 // get all products  
 
 exports.getAllProducts = asyncErrorHanlder (async (req,res) =>{
-    const products = await Product.find()
+    const resultPerPage = 10
+    const productCount = await Product.countDocuments()
+    const apiFeature = new ApiFeatures(Product.find(), req.query)
+    .search()
+    .filter()
+    .pagination(resultPerPage)
+   let products = await apiFeature.query;
+
    await res.status(200).json({
     succees:true,
-    products
+    products,
+    productCount
    })
 })
 
@@ -49,10 +58,7 @@ exports.updateProduct = asyncErrorHanlder(async (req,res,next) =>{
 exports.deleteProduct=asyncErrorHanlder( async(req,res,next)=>{
     const product = await Product.findById(req.params.id)
     if(!product){
-        return res.status(500).json({
-            succees:false,
-            message:"Product Not found"
-        })
+        return next(new ErrorHandler("Product not found", 404));
     }
    await product.remove()
    res.status(200).json({

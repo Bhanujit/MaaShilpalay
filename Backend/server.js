@@ -2,7 +2,7 @@ const app = require("./app")
 const dotenv = require("dotenv")
 const connectToDatabase = require("./config/dataBase")
 
-// Handling Uncaught Exception (haven't understood)
+// Handling Uncaught Exception **
 process.on("uncaughtException", (err) => {
     console.log(`Error: ${err.message}`);
     console.log(`Shutting down the server due to Uncaught Exception`);
@@ -21,7 +21,7 @@ app.listen(process.env.PORT,()=>{
 
 
 
-// Unhandled Promise Rejection (haven't understood)
+// Unhandled Promise Rejection **
 process.on("unhandledRejection", (err) => {
     console.log(`Error: ${err.message}`);
     console.log(`Shutting down the server due to Unhandled Promise Rejection`);
