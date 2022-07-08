@@ -4,12 +4,16 @@ app.use(express.json())
 const errorMiddleware = require('./Middleware/error')
 
 
+
 //Route Import
 const Products= require("./Route/ProductRoute")
 
-// middleware for errors
-app.use(errorMiddleware)
+
 
 app.use("/api/v1",Products)
+
+
+// middleware for errors
+app.use(errorMiddleware)
 
 module.exports = app
