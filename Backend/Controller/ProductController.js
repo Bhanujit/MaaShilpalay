@@ -7,7 +7,6 @@ const ApiFeatures = require('../Utils/apiFeatures')
 exports.createProduct= asyncErrorHanlder(
     async (req,res,next) =>{
         const product = await Product.create(req.body)
-    
         res.status(200).json({
             succees:true,
             product
