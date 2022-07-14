@@ -11,8 +11,33 @@ exports.registerUser = asyncErrorHanlder(async (req, res, next) => {
             url:"sample url"
         }  
     });
+    const token = user.getJwtTocken()
     res.status(201).json({
         succes:true,
-        user
+        token
+    })
+})
+
+exports.loginUser= asyncErrorHanlder(async(req,res,next)=>{
+    const {email,password}= req.body
+
+    if(!email || !password){
+        return  next(new ErrorHandler("Please Enter Email & Password",400))
+    }
+    
+    const user = await User.findOne({email}).select("+password")
+
+    if(!user){
+        return  next(new ErrorHandler("Please Sign UP before Login",401))
+    }
+    const isPasswordMatched = user.comparePassword(password)
+    if(!isPasswordMatched){
+        return next(new ErrorHandler("Invalid Email or Password",401))
+    }
+
+    const token = user.getJwtTocken()
+    res.status(200).json({
+        succes:true,
+        token
     })
 })
