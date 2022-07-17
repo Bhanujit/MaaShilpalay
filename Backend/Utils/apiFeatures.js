@@ -1,23 +1,49 @@
 class ApiFeatures{
+    //query = mongo find method, queryStr  = keyword
     constructor(query,queryStr){
         this.query = query;
         this.queryStr=queryStr;
     }
+
     //Backend Search feature Need to note down
     search(){
-        const keyword = this.queryStr.keyword ? {
-            name:{
-                $regex:this.queryStr.keyword,
-                $options:"i"
-            }
-        } : {};
-        this.query = this.query.find({...keyword})
-        return this;
+        const keyword = this.queryStr.keyword
+        ? {
+            name: {
+              $regex: this.queryStr.keyword,
+              $options: "i",
+            },
+          }
+        : {};
+  
+      this.query = this.query.find({ ...keyword });
+      return this;
+        // const keyword = this.queryStr.keyword;
+    
+        // if(keyword === null||undefined){
+        //      this.query = this.query.find({...{}})
+        //      return this
+        // }
+        // const byName = { 
+        //           name:{$regex:this.queryStr.keyword,
+        //                 $options:"i"}
+        //     }
+        // const byCategory = {
+        //     category:{$regex:this.queryStr.keyword,
+        //               $options:"i"}
+        // }         
+        
+        // const res= this.query.find({...byName}) ||  this.query.find({...byCategory})
+           
+        //   this.query = res
+        //   return this
     }
+    
+   
     
     //filter 
     filter(){
-        const filterQuery = {...this.queryStr}
+        const queryCopy = {...this.queryStr}
         // Removing Fields
         const removeFields = ["keyword","page","limit"]
         removeFields.forEach((key) => delete queryCopy[key]);
@@ -37,4 +63,26 @@ class ApiFeatures{
   }
 }
 
-module.exports= ApiFeatures
+module.exports= ApiFeatures    
+
+
+ // const keyword = this.queryStr.keyword;
+    
+    // if(keyword=== null||undefined){
+    //      this.query = this.query.find({...{}})
+    //      return this
+    // }
+
+    //   const option1 = { 
+    //           name:{$regex:this.queryStr.keyword,
+    //                 $options:"i"}
+    //     }
+    //   const option2 = {
+    //     category:{$regex:this.queryStr.keyword,
+    //               $options:"i"}
+    //     }
+
+    // //   const resByName = this.query.find({...option1})
+    // //   const resByCategory= this.query.find({...option2})
+    //   this.query = this.query.find({...option2})
+    //   return this

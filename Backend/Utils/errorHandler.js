@@ -1,4 +1,4 @@
-
+// try and catch and class 
 class ErrorHandler extends Error{
     constructor(message,statusCode){
         super(message);
@@ -9,4 +9,3 @@ class ErrorHandler extends Error{
 
 module.exports = ErrorHandler
 
-// try and catch and class 

@@ -4,8 +4,9 @@ const asyncErrorHanlder = require("../Middleware/catchAsyncError")
 const ApiFeatures = require('../Utils/apiFeatures')
 
 //create Product --Admin
-exports.createProduct= asyncErrorHanlder(
+exports.createProduct = asyncErrorHanlder(
     async (req,res,next) =>{
+        req.body.user = req.user.id;
         const product = await Product.create(req.body)
         res.status(200).json({
             succees:true,
@@ -15,7 +16,6 @@ exports.createProduct= asyncErrorHanlder(
 )
 
 // get all products  
-
 exports.getAllProducts = asyncErrorHanlder (async (req,res) =>{
     const resultPerPage = 10
     const productCount = await Product.countDocuments()
